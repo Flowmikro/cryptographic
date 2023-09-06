@@ -6,9 +6,8 @@ Python, DRF, Celery, Redis, RSA.
 # Установить 
 Клонирование репозитория: git clone https://github.com/Flowmikro/cryptographic.git  
 Перейти в директорию: cd cryptographic  
-Установка пакетов requirements: pip 
-Запустить сервер redis: redis-server  
-install -r requirements.txt  
+Установка пакетов requirements: pip install -r requirements.txt  
+Запустить сервер redis: redis-server
 Запуск celery: celery -A app worker --beat  
 
 
