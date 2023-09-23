@@ -11,7 +11,7 @@ def creating_rsa_data(task_id):
     crypt_task_db = get_db(CryptTaskModel.objects, task_id=task_id)  # CryptTaskModel.objects.create(task_id=task_id)
 
     crypt_task_db.status = 'в процессе'
-    crypt_task_db.save()
+    crypt_task_db.save(update_fields=['status'])
 
     public_key, private_key = rsa.newkeys(2048)
 
