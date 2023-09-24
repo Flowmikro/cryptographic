@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import CryptTaskModel
 from .serializers import CryptTaskSerializers
 from .services import create_db, get_db, return_json_model
-from .tasks import creating_rsa_data
+from .tasks import update_crypt_task_model_status
 
 
 class CryptTaskAPIPost(APIView):
@@ -17,7 +17,7 @@ class CryptTaskAPIPost(APIView):
         query.encrypted_data = request.data.get('encrypted_data')
         query.save()
 
-        creating_rsa_data.delay(query.task_id)  # передаем задачу celery
+        update_crypt_task_model_status.delay(query.task_id)  # передаем задачу celery
 
         return return_json_model(query)
 
