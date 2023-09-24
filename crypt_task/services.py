@@ -8,7 +8,7 @@ def create_db(objects, **kwargs):
 
 def get_db(objects, **kwargs):
     """Функция для чтения записи из бд"""
-    return objects.get(**kwargs)  # MyModel.objects.create()
+    return objects.get(**kwargs)  # MyModel.objects.get()
 
 
 def return_json_model(query):
