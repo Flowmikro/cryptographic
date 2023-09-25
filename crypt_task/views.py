@@ -1,14 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .models import CryptTaskModel
-from .serializers import CryptTaskSerializers
+from .serializers import CryptTaskSerializers, CryptTaskGetSerializers
 from .services import create_db, get_db, return_json_model
 from .tasks import update_crypt_task_model_status
 
 
 class CryptTaskAPIPost(APIView):
-
     serializer_class = CryptTaskSerializers
 
     def post(self, request):
@@ -22,12 +22,18 @@ class CryptTaskAPIPost(APIView):
         return return_json_model(query)
 
 
-class CryptTaskAPIGet(APIView):
-    def get(self, request, task_id):
-        """Создаем get запрос чтения задачи"""
-        query = get_db(CryptTaskModel.objects, task_id=task_id)  # CryptTaskModel.objects.create(task_id=task_id)
+@api_view(['GET'])
+def get_cryptographic(request, task_id):
+    """Выводим зашифрованную запись """
+    if request.method == 'GET':
+        query = get_db(CryptTaskModel.objects, task_id=task_id)
+
         if query.status == 'в процессе':
             return Response({'status': 'в процессе'})
         elif query.status == 'в ожидании':
             return Response({'status': 'в ожидании'})
-        return return_json_model(query)
+        serial = CryptTaskGetSerializers(query)
+
+        return Response(serial.data)
+    else:
+        return Response('Ошибка GET')
